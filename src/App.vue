@@ -26,10 +26,13 @@
             <h3>Current date: {{getCurrentDate()}}</h3>
             <h3>Consult time: {{getCurrentTime()}}</h3>
           </div>
-          <div class="information-prices">
-            <p><i class="fas fa-dollar-sign" :style="[!darkMode && {'color': 'var(--dark)'}]"></i>{{data.usd.rate}}</p>
-            <p><i class="fas fa-pound-sign" :style="[!darkMode && {'color': 'var(--dark)'}]"></i>{{data.gbp.rate}}</p>
-            <p><i class="fas fa-euro-sign" :style="[!darkMode && {'color': 'var(--dark)'}]"></i>{{data.eur.rate}}</p>
+          <div 
+            class="information-prices" 
+            :style="[!darkMode && {'color': 'var(--dark)'}]"
+          >
+            <p><i class="fas fa-dollar-sign" ></i>{{data.usd.rate}}</p>
+            <p><i class="fas fa-pound-sign"></i>{{data.gbp.rate}}</p>
+            <p><i class="fas fa-euro-sign"></i>{{data.eur.rate}}</p>
           </div>
         </div>
       </div>
@@ -47,7 +50,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['setData']),
+    ...mapActions(['setData', 'setDataLocalStorage']),
     getCurrentDate () {
       const today = new Date();
       const date = today.getFullYear()+'/'+(today.getMonth()+1)+'/'+today.getDate();
@@ -60,12 +63,46 @@ export default {
     },
     changeMode() {
       this.darkMode = !this.darkMode;
-    }
+    },
+    // stateUSD() {
+    //   const usdPrice = parseFloat(this.data.usd.rate.split('.')[0].split(',').join(''));
+    //   const usdPriceLocal = parseFloat(this.dataLocalStorage.usd.rate.split('.')[0].split(',').join(''))
+    //   if ( usdPrice > usdPriceLocal ) {
+    //     return "fas fa-angle-double-up";
+    //   } else if ( usdPrice < usdPriceLocal ) {
+    //     return "fas fa-angle-double-down";
+    //   } else {
+    //     return "fas fa-grip-lines";
+    //   }
+    // },
+    // stateGBP() {      
+    //   const gbpPrice = parseFloat(this.data.gbp.rate.split('.')[0].split(',').join(''));
+    //   const gbpPriceLocal = parseFloat(this.dataLocalStorage.gbp.rate.split('.')[0].split(',').join(''))
+    //   if ( gbpPrice > gbpPriceLocal ) {
+    //     return "fas fa-angle-double-up";
+    //   } else if ( gbpPrice < gbpPriceLocal ) {
+    //     return "fas fa-angle-double-down";
+    //   } else {
+    //     return "fas fa-grip-lines";
+    //   }
+    // },
+    // stateEUR() {      
+    //   const eurPrice = parseFloat(this.data.eur.rate.split('.')[0].split(',').join(''));
+    //   const eurPriceLocal = parseFloat(this.dataLocalStorage.eur.rate.split('.')[0].split(',').join(''))
+    //   if ( eurPrice > eurPriceLocal ) {
+    //     return "fas fa-angle-double-up";
+    //   } else if ( eurPrice < eurPriceLocal ) {
+    //     return "fas fa-angle-double-down";
+    //   } else {
+    //     return "fas fa-grip-lines";
+    //   }
+    // }
   },
   computed: {
-    ...mapState(['data'])
+    ...mapState(['data', 'dataLocalStorage']),
   },
   created() {
+    this.setDataLocalStorage();
     this.setData();
   }
 }
@@ -206,8 +243,12 @@ export default {
 
 .information-box .information-prices p i
 {
-  margin-right: 20px;
+  margin-right: 8px;
   color: var(--orange);
 }
 
+.information-prices .icon
+{
+  margin-left: 5px;
+}
 </style>
