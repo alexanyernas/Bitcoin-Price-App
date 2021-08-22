@@ -30,12 +30,10 @@ export default createStore({
         .then( response => {
           const { bpi } = { ...response.data };
           const { USD, GBP, EUR } = bpi;
-          const dataApi = {
-            usd: USD,
-            gbp: GBP,
-            eur: EUR
-          }
-          commit('setData', dataApi);
+          const usd = {...USD, price: USD.rate.split('.')[0].split(',').join('')}
+          const gbp = {...GBP, price: GBP.rate.split('.')[0].split(',').join('')}
+          const eur = {...EUR, price: EUR.rate.split('.')[0].split(',').join('')}
+          commit('setData', {usd, gbp, eur});
         })
         .catch(error => console.log( error.message ));
       },

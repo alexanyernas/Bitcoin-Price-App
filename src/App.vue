@@ -30,9 +30,9 @@
             class="information-prices" 
             :style="[!darkMode && {'color': 'var(--dark)'}]"
           >
-            <p><i class="fas fa-dollar-sign" ></i>{{data.usd.rate}}</p>
-            <p><i class="fas fa-pound-sign"></i>{{data.gbp.rate}}</p>
-            <p><i class="fas fa-euro-sign"></i>{{data.eur.rate}}</p>
+            <p><i class="fas fa-dollar-sign" ></i>{{data.usd.rate}}<i :class="[stateUSD(), 'icon']"></i></p>
+            <p><i class="fas fa-pound-sign"></i>{{data.gbp.rate}}<i :class="[stateGBP(), 'icon']"></i></p>
+            <p><i class="fas fa-euro-sign"></i>{{data.eur.rate}}<i :class="[stateEUR(), 'icon']"></i></p>
           </div>
         </div>
       </div>
@@ -64,39 +64,39 @@ export default {
     changeMode() {
       this.darkMode = !this.darkMode;
     },
-    // stateUSD() {
-    //   const usdPrice = parseFloat(this.data.usd.rate.split('.')[0].split(',').join(''));
-    //   const usdPriceLocal = parseFloat(this.dataLocalStorage.usd.rate.split('.')[0].split(',').join(''))
-    //   if ( usdPrice > usdPriceLocal ) {
-    //     return "fas fa-angle-double-up";
-    //   } else if ( usdPrice < usdPriceLocal ) {
-    //     return "fas fa-angle-double-down";
-    //   } else {
-    //     return "fas fa-grip-lines";
-    //   }
-    // },
-    // stateGBP() {      
-    //   const gbpPrice = parseFloat(this.data.gbp.rate.split('.')[0].split(',').join(''));
-    //   const gbpPriceLocal = parseFloat(this.dataLocalStorage.gbp.rate.split('.')[0].split(',').join(''))
-    //   if ( gbpPrice > gbpPriceLocal ) {
-    //     return "fas fa-angle-double-up";
-    //   } else if ( gbpPrice < gbpPriceLocal ) {
-    //     return "fas fa-angle-double-down";
-    //   } else {
-    //     return "fas fa-grip-lines";
-    //   }
-    // },
-    // stateEUR() {      
-    //   const eurPrice = parseFloat(this.data.eur.rate.split('.')[0].split(',').join(''));
-    //   const eurPriceLocal = parseFloat(this.dataLocalStorage.eur.rate.split('.')[0].split(',').join(''))
-    //   if ( eurPrice > eurPriceLocal ) {
-    //     return "fas fa-angle-double-up";
-    //   } else if ( eurPrice < eurPriceLocal ) {
-    //     return "fas fa-angle-double-down";
-    //   } else {
-    //     return "fas fa-grip-lines";
-    //   }
-    // }
+    stateUSD() {
+      const usdPrice = parseFloat(this.data.usd.price);
+      const usdPriceLocal = parseFloat(this.dataLocalStorage.usd.price)
+      if ( usdPrice > usdPriceLocal ) {
+        return "fas fa-angle-double-up";
+      } else if ( usdPrice < usdPriceLocal ) {
+        return "fas fa-angle-double-down";
+      } else {
+        return "fas fa-grip-lines";
+      }
+    },
+    stateGBP() {      
+      const gbpPrice = parseFloat(this.data.gbp.price);
+      const gbpPriceLocal = parseFloat(this.dataLocalStorage.gbp.price)
+      if ( gbpPrice > gbpPriceLocal ) {
+        return "fas fa-angle-double-up";
+      } else if ( gbpPrice < gbpPriceLocal ) {
+        return "fas fa-angle-double-down";
+      } else {
+        return "fas fa-grip-lines";
+      }
+    },
+    stateEUR() {      
+      const eurPrice = parseFloat(this.data.eur.price);
+      const eurPriceLocal = parseFloat(this.dataLocalStorage.eur.price)
+      if ( eurPrice > eurPriceLocal ) {
+        return "fas fa-angle-double-up";
+      } else if ( eurPrice < eurPriceLocal ) {
+        return "fas fa-angle-double-down";
+      } else {
+        return "fas fa-grip-lines";
+      }
+    }
   },
   computed: {
     ...mapState(['data', 'dataLocalStorage']),
@@ -235,9 +235,9 @@ export default {
 
 .information-box .information-prices p
 {
-  font-size: 2.3em;
+  font-size: 2em;
   margin-bottom: 20px;
-  font-weight: 900;
+  font-weight: 400;
   transition: .5s;
 }
 
@@ -249,6 +249,7 @@ export default {
 
 .information-prices .icon
 {
-  margin-left: 5px;
+  margin-left: 8px;
+  font-size: .8em;
 }
 </style>
