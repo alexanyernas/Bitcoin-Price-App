@@ -1,18 +1,36 @@
 <template>
-  <div class="main">
-    <div class="content">
-      <div class="title-box">
-        <h1>Bitcoin Price</h1>
+  <div :class="[!darkMode && 'light', 'body']">
+    <div class="main">
+      <div class="mode-container">
+        <button @click="changeMode">
+          <i 
+            v-if="darkMode" 
+            class="fas fa-sun fa-2x" 
+            :style="{'color': 'var(--yellow)'}"
+          >
+          </i>
+          <i 
+            v-if="!darkMode" 
+            class="fas fa-moon fa-2x" 
+            :style="{'color': 'var(--gray)'}"
+          >
+          </i>
+        </button>
       </div>
-      <div class="information-box">
-        <div class="information-date">
-          <h3>Current date: {{getCurrentDate()}}</h3>
-          <h3>Consult time: {{getCurrentTime()}}</h3>
+      <div class="content">
+        <div class="title-box">
+          <h1>Bitcoin Price</h1>
         </div>
-        <div class="information-prices">
-          <p><i class="fas fa-dollar-sign"></i>{{data.usd.rate}}</p>
-          <p><i class="fas fa-pound-sign"></i>{{data.gbp.rate}}</p>
-          <p><i class="fas fa-euro-sign"></i>{{data.eur.rate}}</p>
+        <div class="information-box">
+          <div class="information-date">
+            <h3>Current date: {{getCurrentDate()}}</h3>
+            <h3>Consult time: {{getCurrentTime()}}</h3>
+          </div>
+          <div class="information-prices">
+            <p><i class="fas fa-dollar-sign" :style="[!darkMode && {'color': 'var(--dark)'}]"></i>{{data.usd.rate}}</p>
+            <p><i class="fas fa-pound-sign" :style="[!darkMode && {'color': 'var(--dark)'}]"></i>{{data.gbp.rate}}</p>
+            <p><i class="fas fa-euro-sign" :style="[!darkMode && {'color': 'var(--dark)'}]"></i>{{data.eur.rate}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -25,7 +43,7 @@ export default {
   name: 'App',
   data() {
     return {
-      darkMode: false
+      darkMode: true
     }
   },
   methods: {
@@ -39,6 +57,9 @@ export default {
       const time = new Date();
       const currentTime = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
       return currentTime;
+    },
+    changeMode() {
+      this.darkMode = !this.darkMode;
     }
   },
   computed: {
@@ -61,14 +82,23 @@ export default {
 :root 
 {
   --white: #FFF;
+  --yellow: #FFFF00;
+  --gray: #333;
+  --dark: #222;
+  --orange: #ff9d5c;
 }
 
-body 
+.body 
 {
   font-family: 'Montserrat', sans-serif;
-  background-image: url('./assets/background.jpg');
   background-position: center;
   background-size: cover;
+  background-image: url('./assets/background.jpg');
+}
+
+.body.light
+{
+  background-image: url('./assets/background-white.jpg');
 }
 
 .main
@@ -76,9 +106,40 @@ body
   color: var(--white);
   padding: 32px;
   min-height: 100vh;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
 }
 
+.body.light .main
+{
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7));
+}
+
+.body.light .information-box 
+{
+  color: var(--dark);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95));
+}
+
+.body.light .title-box
+{
+  color: var(--dark)
+}
+
+.mode-container
+{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mode-container button
+{
+  cursor: pointer;
+  padding: 12px;
+  color: var(--white);
+  background: transparent;
+  border: none;
+  outline: none;
+}
 
 .content
 {
@@ -86,7 +147,12 @@ body
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+  .content {
+    width: 100%;
+  }
 }
 
 .title-box 
@@ -114,12 +180,15 @@ body
   padding: 20px;
   margin-left: 12px;
   margin-right: 12px;
+  border-radius: 5%;
+  transition: .6s;
 }
 
 .information-box .information-date
 {
   margin-bottom: 20px;
   font-size: .8em;
+  transition: .3s;
 }
 
 .information-date h3 
@@ -129,15 +198,16 @@ body
 
 .information-box .information-prices p
 {
-  
   font-size: 2.3em;
   margin-bottom: 20px;
   font-weight: 900;
+  transition: .5s;
 }
 
 .information-box .information-prices p i
 {
   margin-right: 20px;
+  color: var(--orange);
 }
 
 </style>
